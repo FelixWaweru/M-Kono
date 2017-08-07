@@ -2,22 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1F1F21">
+    android:background="#9b0a0f">
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:src="@drawable/splash"
         android:id="@+id/imageView" />
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:id="@+id/text"
         android:text="M-Kono"
-        android:textSize="70dp"
-        android:textColor="#f5f5f5"
+        android:textSize="40dp"
+        android:textColor="#d3d3d3"
         android:gravity="center"
-        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp" />
+        android:layout_marginBottom="114dp" />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="The Arduino Powered Proshtetic"-->
+        <!--android:textSize="25dp"-->
+        <!--android:textColor="#d3d3d3"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="58dp"-->
+        <!--android:id="@+id/textView3" />-->
+
 
 </RelativeLayout>

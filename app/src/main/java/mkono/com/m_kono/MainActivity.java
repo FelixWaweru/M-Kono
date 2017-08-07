@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private TextView txtSpeechInput;
-    private ImageButton btnSpeak;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,17 @@ public class MainActivity extends AppCompatActivity {
                     txtSpeechInput.setText(result.get(0));
                     String command= result.get(0).toString();
                     Toast.makeText(MainActivity.this,"You have chosen the action "+ command, Toast.LENGTH_SHORT).show();
+                    switch(command)
+                    {
+                        case "open":
+                            Toast.makeText(MainActivity.this, "Open hand", Toast.LENGTH_SHORT).show();
+
+                        case"close":
+                            Toast.makeText(MainActivity.this, "Close hand", Toast.LENGTH_SHORT).show();
+
+                        case"greet":
+                            Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             }
