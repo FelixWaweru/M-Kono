@@ -21,6 +21,7 @@ import java.util.logging.Handler;
  * Created by USER PC on 06-Jul-17.
  */
 public class Connection extends AppCompatActivity {
+    TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +38,8 @@ public class Connection extends AppCompatActivity {
         boolean status = intent.getExtras().getBoolean("connected");
         String StringStatus = Boolean.toString(status);
         if (StringStatus.equals("connected")) {
-            TextView text = (TextView)findViewById(R.id.text);
-            text.setText("Connected");
+
+            text.setText(StringStatus);
             Thread.sleep(2000);
             Toast.makeText(Connection.this, "connected", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainActivity.class));
@@ -53,5 +54,30 @@ public class Connection extends AppCompatActivity {
             }
         }
     }
+    //    public void checkConnections() throws InterruptedException {
+//        HashMap usbDevices = usbManager.getDeviceList();
+//        if (!usbDevices.isEmpty()) {
+//            boolean keep = true;
+//            for (Object entry : usbDevices.entrySet()) {
+//                device = (UsbDevice) entry.getValue();
+//                int deviceVID = device.getVendorId();
+//                if (deviceVID == 0x2341)//Arduino Vendor ID
+//                {
+//                    PendingIntent pi = PendingIntent.getBroadcast(this, 0,
+//                            new Intent(ACTION_USB_PERMISSION), 0);
+//                    usbManager.requestPermission(device, pi);
+//                    keep = false;
+//                } else {
+//                    connection = null;
+//                    device = null;
+//                    Thread.sleep(10000);
+//                    Toast.makeText(Connection.this, "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                if (!keep)
+//                    break;
+//            }
+//        }
+//    }
 
 }
