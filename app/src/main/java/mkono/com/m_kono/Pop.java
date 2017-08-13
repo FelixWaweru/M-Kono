@@ -23,6 +23,7 @@ public class Pop extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*8),(int)(height*6));
+        getWindow().setLayout((int)(width*.95),(int)(height*.60));
+//        getWindow().setLayout(width,630);
     }
 }

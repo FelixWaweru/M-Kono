@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,11 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            checkConnections();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        checkConnections();
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
@@ -124,28 +122,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    public void checkConnections() throws InterruptedException {
-        HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
-        if (!usbDevices.isEmpty()) {
-            boolean keep = true;
-            for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
-                device = entry.getValue();
-                int deviceVID = device.getVendorId();
-                if (deviceVID == 0x2341)//Arduino Vendor ID
-                {
-                    PendingIntent pi = PendingIntent.getBroadcast(this, 0,
-                            new Intent(ACTION_USB_PERMISSION), 0);
-                    usbManager.requestPermission(device, pi);
-                    keep = false;
-                } else {
-                    connection = null;
-                    device = null;
-                    Toast.makeText(MainActivity.this, "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
-                }
 
-                if (!keep)
-                    break;
+    public void checkConnections() {
+        while (usbManager == null) {
+            startActivity(new Intent(MainActivity.this, Pop.class));
+            Toast.makeText(MainActivity.this, "Waiting for connection.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        while(usbManager!= null)
+        {
+            HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
+            if (!usbDevices.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Connected.", Toast.LENGTH_SHORT).show();
+                boolean keep = true;
+                for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
+                    device = entry.getValue();
+                    int deviceVID = device.getVendorId();
+                    Toast.makeText(MainActivity.this, deviceVID, Toast.LENGTH_SHORT).show();
+                    if (deviceVID == 0x2341)//Arduino Vendor ID
+                    {
+                        PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                        usbManager.requestPermission(device, pi);
+                        keep = false;
+                    } else {
+                        connection = null;
+                        device = null;
+                        Toast.makeText(MainActivity.this, "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (!keep)
+                        break;
+                }
             }
         }
     }
@@ -179,11 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("SERIAL", "PERM NOT GRANTED");
                 }
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
-                try {
                     checkConnections();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
                 serialPort.close();
                 Toast.makeText(MainActivity.this, "Connection Closed", Toast.LENGTH_SHORT).show();
