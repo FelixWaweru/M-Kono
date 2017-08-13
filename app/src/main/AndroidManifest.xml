@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="mkono.com.m_kono" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="mkono.com.m_kono">
+    <uses-sdk tools:overrideLibrary="com.felhr.usbserial"/>
+    <uses-feature android:name="android.hardware.usb.host" />
 
     <application
         android:allowBackup="true"
