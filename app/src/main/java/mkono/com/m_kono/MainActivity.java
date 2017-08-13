@@ -1,13 +1,16 @@
 package mkono.com.m_kono;
 
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.os.Build;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import com.felhr.usbserial.UsbSerialInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +47,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try {
+            checkConnections();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_USB_PERMISSION);
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+        registerReceiver(broadcastReceiver, filter);
         txtSpeechInput = (TextView) findViewById(R.id.textView);
         ImageButton b = (ImageButton)findViewById(R.id.voice);
         b.setOnClickListener(new View.OnClickListener() {
@@ -110,12 +124,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     public void checkConnections() throws InterruptedException {
-        HashMap usbDevices = usbManager.getDeviceList();
+        HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
         if (!usbDevices.isEmpty()) {
             boolean keep = true;
-            for (Object entry : usbDevices.entrySet()) {
-                device = (UsbDevice) entry.getValue();
+            for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
+                device = entry.getValue();
                 int deviceVID = device.getVendorId();
                 if (deviceVID == 0x2341)//Arduino Vendor ID
                 {
@@ -126,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     connection = null;
                     device = null;
-                    Thread.sleep(10000);
                     Toast.makeText(MainActivity.this, "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
                 }
 
@@ -136,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
+        @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
@@ -152,12 +167,15 @@ public class MainActivity extends AppCompatActivity {
                             serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
 
                         } else {
+                            startActivity(new Intent(MainActivity.this, Pop.class));
                             Log.d("SERIAL", "PORT NOT OPEN");
                         }
                     } else {
+                        startActivity(new Intent(MainActivity.this, Pop.class));
                         Log.d("SERIAL", "PORT IS NULL");
                     }
                 } else {
+                    startActivity(new Intent(MainActivity.this, Pop.class));
                     Log.d("SERIAL", "PERM NOT GRANTED");
                 }
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
