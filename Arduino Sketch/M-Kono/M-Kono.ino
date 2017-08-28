@@ -21,11 +21,12 @@ void setup() {
   
 } 
 
-void loop() {            // Loop through motion tests
-  //  if(Serial.available())
-//  {
-//    phoneInput=Serial.read();
-//    }  
+void loop() {            
+// Loop through motion tests
+  if(Serial.available())
+  {
+    phoneInput=Serial.read();
+  }  
   openHand();           
   delay(4000);        
   closeHand();           
@@ -33,24 +34,30 @@ void loop() {            // Loop through motion tests
   char phoneInput;      
 }
 //method used to translate phone input into actions
-//void action()
-//{
-//    switch (phoneInput)
-//    {
-//      case openHand:
-//        openHand();
-//        break;
-//      case closeHand:
-//        closeHand();
-//        break;
-//      }
-//}
+void action()
+{
+    switch (phoneInput)
+    {
+      case openHand:
+        openHand();
+        break;
+      case closeHand:
+        closeHand();
+        break;
+      case good:
+        thumbsUp();
+        break;
+       case point:
+        point();
+        break;
+      }
+}
 //method to drive individual fingers
 void drive(Servo s, int pos)
 {
   s.writeMicroseconds(pos);
 }
-
+//methods contianing
 void openHand() {         
   drive(thumb, straight);
   drive(index, straight);
@@ -59,11 +66,28 @@ void openHand() {
   drive(pinky, straight);
 }
 
-void closeHand() {         
+void closeHand() {   
+  drive(pinky, pbend);
+  drive(ring, bend);
+  drive(middle, bend);      
   drive(index, bend);
   drive(thumb, bend);
-  drive(ring, bend);
-  drive(middle, bend);
+}
+
+void thumbsUp()
+{
   drive(pinky, pbend);
+  drive(ring, bend);
+  drive(middle, bend);      
+  drive(index, bend);
+  drive(thumb, straight);
+}
+void point()
+{
+  drive(pinky, pbend);
+  drive(ring, bend);
+  drive(middle, bend);      
+  drive(index, straight);
+  drive(thumb, bend);
 }
 

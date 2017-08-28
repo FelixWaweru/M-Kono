@@ -104,16 +104,52 @@ public class MainActivity extends AppCompatActivity {
                     switch(command)
                     {
                         case "open":
-                            serialPort.write(command.getBytes());
-                            Toast.makeText(MainActivity.this, "Open hand", Toast.LENGTH_SHORT).show();
+                            try {
+                                serialPort.write(command.getBytes());
+                                Toast.makeText(MainActivity.this, "Open hand", Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e)
+                            {
+                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                            }
 
                         case"close":
-                            serialPort.write(command.getBytes());
-                            Toast.makeText(MainActivity.this, "Close hand", Toast.LENGTH_SHORT).show();
+                            try {
+                                serialPort.write(command.getBytes());
+                                Toast.makeText(MainActivity.this, "Close hand", Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e)
+                            {
+                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                            }
 
                         case"greet":
-                            serialPort.write(command.getBytes());
-                            Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                            try {
+                                serialPort.write(command.getBytes());
+                                Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e)
+                            {
+                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                            }
+                        case"point":
+                            try {
+                                serialPort.write(command.getBytes());
+                                Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e)
+                            {
+                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                            }
+                        case"good":
+                            try {
+                                serialPort.write(command.getBytes());
+                                Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e)
+                            {
+                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                            }
                     }
                 }
                 break;
