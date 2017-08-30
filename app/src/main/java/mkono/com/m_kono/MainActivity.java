@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         case "open":
                             try {
+                                command.toLowerCase();
                                 serialPort.write(command.getBytes());
                                 Toast.makeText(MainActivity.this, "Open hand", Toast.LENGTH_SHORT).show();
                             }
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
                         case"close":
                             try {
+                                command.toLowerCase();
                                 serialPort.write(command.getBytes());
                                 Toast.makeText(MainActivity.this, "Close hand", Toast.LENGTH_SHORT).show();
                             }
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
                         case"greet":
                             try {
+                                command.toLowerCase();
                                 serialPort.write(command.getBytes());
                                 Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
                             }
@@ -134,8 +137,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                         case"point":
                             try {
+                                command.toLowerCase();
                                 serialPort.write(command.getBytes());
-                                Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Pointing", Toast.LENGTH_SHORT).show();
                             }
                             catch (Exception e)
                             {
@@ -143,8 +147,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                         case"good":
                             try {
+                                command.toLowerCase();
                                 serialPort.write(command.getBytes());
-                                Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Good", Toast.LENGTH_SHORT).show();
                             }
                             catch (Exception e)
                             {
@@ -211,14 +216,17 @@ public class MainActivity extends AppCompatActivity {
 
                         } else {
                             startActivity(new Intent(MainActivity.this, Pop.class));
+                            Toast.makeText(MainActivity.this, "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
                             Log.d("SERIAL", "PORT NOT OPEN");
                         }
                     } else {
                         startActivity(new Intent(MainActivity.this, Pop.class));
+                        Toast.makeText(MainActivity.this, "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
                         Log.d("SERIAL", "PORT IS NULL");
                     }
                 } else {
                     startActivity(new Intent(MainActivity.this, Pop.class));
+                    Toast.makeText(MainActivity.this, "Please enable USB permissions and try again.", Toast.LENGTH_SHORT).show();
                     Log.d("SERIAL", "PERM NOT GRANTED");
                 }
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
