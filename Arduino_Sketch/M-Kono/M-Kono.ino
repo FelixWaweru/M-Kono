@@ -1,5 +1,6 @@
 #include <Servo.h>
-
+//Remember to use 6 - 7v battery
+//Connect servo to signal, power(batery only) and ground(battery & arduino ground)
 
 Servo thumb, index, middle, ring, pinky; // Define servo
 int bend = 800;
@@ -31,7 +32,8 @@ void loop() {
 //  openHand();           
 //  delay(4000);        
 //  closeHand();           
-//  delay(2000);        
+//  delay(2000);
+action();        
 }
 //method used to translate phone input into actions
 void action()
