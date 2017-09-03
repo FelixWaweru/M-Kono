@@ -1,6 +1,7 @@
 package mkono.com.m_kono;
 
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -12,6 +13,7 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         registerReceiver(broadcastReceiver, filter);
         txtSpeechInput = (TextView) findViewById(R.id.textView);
+        ImageButton help = (ImageButton) findViewById(R.id.help);
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Help.class));
+            }
+        });
         ImageButton b = (ImageButton)findViewById(R.id.voice);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                             catch (Exception e)
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                checkConnections();
                             }
 
                         case"close":
@@ -123,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                             catch (Exception e)
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                checkConnections();
                             }
 
                         case"greet":
@@ -134,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                             catch (Exception e)
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                checkConnections();
                             }
                         case"point":
                             try {
@@ -144,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                             catch (Exception e)
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                checkConnections();
                             }
                         case"good":
                             try {
@@ -154,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                             catch (Exception e)
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                checkConnections();
                             }
                     }
                 }
@@ -185,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
                         PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
                         usbManager.requestPermission(device, pi);
                         keep = false;
+                        menuNotification();
                     } else {
                         connection = null;
                         device = null;
@@ -215,17 +230,17 @@ public class MainActivity extends AppCompatActivity {
                             serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
 
                         } else {
-                            startActivity(new Intent(MainActivity.this, Pop.class));
+                            checkConnections();
                             Toast.makeText(MainActivity.this, "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
                             Log.d("SERIAL", "PORT NOT OPEN");
                         }
                     } else {
-                        startActivity(new Intent(MainActivity.this, Pop.class));
+                        checkConnections();
                         Toast.makeText(MainActivity.this, "Please check your connection and try again.", Toast.LENGTH_SHORT).show();
                         Log.d("SERIAL", "PORT IS NULL");
                     }
                 } else {
-                    startActivity(new Intent(MainActivity.this, Pop.class));
+                    checkConnections();
                     Toast.makeText(MainActivity.this, "Please enable USB permissions and try again.", Toast.LENGTH_SHORT).show();
                     Log.d("SERIAL", "PERM NOT GRANTED");
                 }
@@ -240,4 +255,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     };
+
+    public void menuNotification()
+    {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("M-Kono")
+                .setContentText("You have connected your Phone to the prosthetic.");
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(001, mBuilder.build());
+    }
 }
