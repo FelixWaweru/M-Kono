@@ -17,7 +17,7 @@
         android:layout_alignBottom="@+id/help"
         android:layout_centerHorizontal="true" />
     <TextView
-        android:text="test"
+        android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="80dp"
