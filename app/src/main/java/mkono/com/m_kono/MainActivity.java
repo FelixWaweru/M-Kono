@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
                                 checkConnections();
+                                break;
                             }
 
                         case"close":
@@ -134,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
                                 checkConnections();
+                                break;
                             }
 
                         case"greet":
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
                                 checkConnections();
+                                break;
                             }
                         case"point":
                             try {
@@ -157,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
                                 checkConnections();
+                                break;
                             }
                         case"good":
                             try {
@@ -168,7 +172,10 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
                                 checkConnections();
+                                break;
                             }
+                        case "help":
+                            startActivity(new Intent(MainActivity.this, Help.class));
                     }
                 }
                 break;

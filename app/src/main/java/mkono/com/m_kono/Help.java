@@ -21,7 +21,7 @@ public class Help extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*.95),(int)(height*.70));
+        getWindow().setLayout((int)(width*.95),(int)(height*.95));
 //        getWindow().setLayout(width,630);
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
