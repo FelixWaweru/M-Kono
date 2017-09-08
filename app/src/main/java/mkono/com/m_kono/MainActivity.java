@@ -105,82 +105,78 @@ public class MainActivity extends AppCompatActivity {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
 
-                    ArrayList<String> result = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    txtSpeechInput.setText(result.get(0));
-                    String command= result.get(0).toString();
-                    Toast.makeText(MainActivity.this,"You have chosen the action "+ command, Toast.LENGTH_SHORT).show();
-                    switch(command)
-                    {
-                        case "open":
-                            try {
-                                command.toLowerCase();
-                                serialPort.write(command.getBytes());
-                                Toast.makeText(MainActivity.this, "Open hand", Toast.LENGTH_SHORT).show();
-                            }
-                            catch (Exception e)
-                            {
-                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
-                                checkConnections();
-                                break;
-                            }
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    String command = result.get(0).toString();
+                    Toast.makeText(MainActivity.this, "You have spoken the word " + command, Toast.LENGTH_SHORT).show();
+                    if (command.equals("open") || command.equals("close") || command.equals("greet")
+                            || command.equals("point") || command.equals("good") || command.equals("help")) {
+                        txtSpeechInput.setText(result.get(0));
+                        switch (command) {
+                            case "open":
+                                try {
+                                    command.toLowerCase();
+                                    serialPort.write(command.getBytes());
+                                    Toast.makeText(MainActivity.this, "Open hand", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                    checkConnections();
+                                    break;
+                                }
 
-                        case"close":
-                            try {
-                                command.toLowerCase();
-                                serialPort.write(command.getBytes());
-                                Toast.makeText(MainActivity.this, "Close hand", Toast.LENGTH_SHORT).show();
-                            }
-                            catch (Exception e)
-                            {
-                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
-                                checkConnections();
-                                break;
-                            }
+                            case "close":
+                                try {
+                                    command.toLowerCase();
+                                    serialPort.write(command.getBytes());
+                                    Toast.makeText(MainActivity.this, "Close hand", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                    checkConnections();
+                                    break;
+                                }
 
-                        case"greet":
-                            try {
-                                command.toLowerCase();
-                                serialPort.write(command.getBytes());
-                                Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
-                            }
-                            catch (Exception e)
-                            {
-                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
-                                checkConnections();
-                                break;
-                            }
-                        case"point":
-                            try {
-                                command.toLowerCase();
-                                serialPort.write(command.getBytes());
-                                Toast.makeText(MainActivity.this, "Pointing", Toast.LENGTH_SHORT).show();
-                            }
-                            catch (Exception e)
-                            {
-                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
-                                checkConnections();
-                                break;
-                            }
-                        case"good":
-                            try {
-                                command.toLowerCase();
-                                serialPort.write(command.getBytes());
-                                Toast.makeText(MainActivity.this, "Good", Toast.LENGTH_SHORT).show();
-                            }
-                            catch (Exception e)
-                            {
-                                Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
-                                checkConnections();
-                                break;
-                            }
-                        case "help":
-                            startActivity(new Intent(MainActivity.this, Help.class));
+                            case "greet":
+                                try {
+                                    command.toLowerCase();
+                                    serialPort.write(command.getBytes());
+                                    Toast.makeText(MainActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                    checkConnections();
+                                    break;
+                                }
+                            case "point":
+                                try {
+                                    command.toLowerCase();
+                                    serialPort.write(command.getBytes());
+                                    Toast.makeText(MainActivity.this, "Pointing", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                    checkConnections();
+                                    break;
+                                }
+                            case "good":
+                                try {
+                                    command.toLowerCase();
+                                    serialPort.write(command.getBytes());
+                                    Toast.makeText(MainActivity.this, "Good", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(MainActivity.this, "Please check your connection to the device and try again.", Toast.LENGTH_SHORT).show();
+                                    checkConnections();
+                                    break;
+                                }
+                            case "help":
+                                startActivity(new Intent(MainActivity.this, Help.class));
+                        }
+                        break;
                     }
-                }
-                break;
-            }
+                    else
+                    {
+                        Toast.makeText(MainActivity.this, "Please speak a command from the available options and try again.", Toast.LENGTH_SHORT).show();
+                    }
 
+                }
+
+            }
         }
     }
 
